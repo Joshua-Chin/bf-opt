@@ -25,5 +25,5 @@ def parse(src):
         elif char == '.':
             tree[-1].append(block({}, tape_index, read_index, (tape[tape_index],)))
         elif char == ',':
-            tree[-1].append(block({tape[tape_index]: reads[read_index]}, tape_index, read_index+1, ()))
+            tree[-1].append(block({tape[tape_index]: assign(reads[read_index])}, tape_index, read_index+1, ()))
     return tree[-1]
