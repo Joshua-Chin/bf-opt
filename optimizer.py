@@ -91,4 +91,19 @@ def dead_loop_elimination(ir):
 
 def unroll_loop(ir):
     """Attempts to prove which elements are positive, in order to convert loops into direct jump"""
+    out = []
+    prev = None
+    for elem in ir:
+        if isinstance(elem, loop):
+            elem = unroll_loop(elem)
+            if len(elem) == 1 and isinstance(elem[0], block) \
+               and not elem[0].computations \ #Improve latter
+               and elem[0].reads == read_index \
+               and not elem[0].writes \
+               and prev is not None:
+                blk = elem[0]
+                step = blk.shift-tape_index
+                start = prev.shift
+                continue
+        out.append(elem)
 
